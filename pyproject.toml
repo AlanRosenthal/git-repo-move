@@ -7,6 +7,7 @@ license = "MIT License"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+click = "^7.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.1"
@@ -16,3 +17,6 @@ pylint = "^2.6.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+git-repo-move = "git_repo_move.cli:main"
