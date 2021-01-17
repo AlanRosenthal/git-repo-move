@@ -21,4 +21,4 @@ class GitInfo():
         return f"git remote remove {self.remote_name}"
 
     def push_branch_to_remote_cmd(self):
-        return f"git push {self.remote_name} {self.remote_url} --force"
+        return f"git push {self.remote_name} {self.branch} --force"

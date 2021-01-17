@@ -16,12 +16,17 @@ class KeepFiles():
         # guaranteed to be unused by picking an idiotic directory name
         self._working_dir = "keep1234"
         self.final_directory = final_directory
+        self._commands = []
+        self.generate_commands()
 
 
     @property
     def working_dir(self):
         return self._working_dir
 
+    @property
+    def commands(self):
+        return self._commands
 
     def get_files_and_directories(self):
         """
@@ -67,4 +72,4 @@ class KeepFiles():
         for directory in dirnames:
             mkdir_commands.append(f"mkdir -p {directory}")
 
-        return sorted(mkdir_commands) + mv_commands
+        self._commands = sorted(mkdir_commands) + mv_commands
