@@ -12,7 +12,7 @@ class GitInfo():
         self.branch = branch
 
     def create_new_branch_cmd(self):
-        return f"git branch -D {self.branch} && git checkout -b {self.branch}"
+        return f"git branch -D {self.branch}; git checkout -b {self.branch}"
 
     def add_new_remote_cmd(self):
         return f"git remote add {self.remote_name} {self.remote_url}"

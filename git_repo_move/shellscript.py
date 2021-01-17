@@ -8,6 +8,7 @@ import stat
 
 class ShellScript():
     """
+    Generate a shell script
     """
     def __init__(self, keepfiles, gitinfo, save_shell_script, shell_script_name):
         self.keepfiles = keepfiles
@@ -16,8 +17,10 @@ class ShellScript():
         self.shell_script_name = shell_script_name
         self.script = []
         self.generate_script()
-        if save_shell_script:
-            self.save_script()
+        if not save_shell_script:
+            _, self.shell_script_name = tempfile.mkstemp(suffix=".sh")
+
+        self.save_script()
 
     def generate_script(self):
         self.script.append("#! /bin/env bash")
@@ -56,3 +59,5 @@ class ShellScript():
         st = os.stat(self.shell_script_name)
         os.chmod(self.shell_script_name, st.st_mode | stat.S_IEXEC)
 
+    def execute(self):
+        return os.system(f"./{shell_script_name}")

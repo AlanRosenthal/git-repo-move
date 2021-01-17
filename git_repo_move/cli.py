@@ -1,3 +1,9 @@
+"""
+CLI interface for git-repo-move
+"""
+
+import os
+import sys
 import click
 from .keepfiles import KeepFiles
 from .gitinfo import GitInfo
@@ -36,5 +42,13 @@ def main(file, directory, dir_structure, final_directory, git_remote_url, git_br
     shellscript = ShellScript(keepfiles=keepfiles, gitinfo=gitinfo, save_shell_script=save_shell_script, shell_script_name=shell_script_name)
 
     if try_keep:
-        print("running `mv` commands on this repo, run `git reset --hard` to undo everything")
-        
+        print(f"Running the keep script on this repo, run `git reset --hard && rm -rf {keepfiles.working_dir}` to undo everything")
+        print(f"Inspect the directory: {keepfiles.working_dir}")
+        for cmd in keepfiles.commands:
+            retval = os.system(cmd)
+            if retval != 0:
+                sys.exit(retval)
+        sys.exit(0)
+
+    if execute:
+        sys.exit(shellscript.execute())
