@@ -17,5 +17,8 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Install Poetry
+        run: pip3 install poetry==1.1.4
+
       - name: Install Dependencies
         run: poetry install
