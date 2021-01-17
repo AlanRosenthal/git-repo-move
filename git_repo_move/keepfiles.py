@@ -5,11 +5,15 @@ Keep Files class
 import os
 import random
 
-class KeepFiles():
+
+class KeepFiles:
     """
     KeepFiles class. These are the files and directories you want to save
     """
-    def __init__(self, keep_files, keep_directories, is_dir_structure_flat, final_directory):
+
+    def __init__(
+        self, keep_files, keep_directories, is_dir_structure_flat, final_directory
+    ):
         self.keep_files = keep_files
         self.keep_directories = [os.path.normpath(x) for x in keep_directories]
         self.is_dir_structure_flat = is_dir_structure_flat
@@ -56,7 +60,6 @@ class KeepFiles():
             result.extend(self.keep_directories)
         return result
 
-
     def generate_commands(self):
         """
         Generate commands required for the Keep Stage
@@ -79,7 +82,9 @@ class KeepFiles():
             mv_commands.append(f"mv -f {file} {dest}")
 
         # commands to move directories
-        keep_directories = [os.path.relpath(x, self.common_path) for x in self.keep_directories]
+        keep_directories = [
+            os.path.relpath(x, self.common_path) for x in self.keep_directories
+        ]
         for directory in keep_directories:
             dest = dest_base
             if self.is_dir_structure_flat:

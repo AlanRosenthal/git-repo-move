@@ -2,10 +2,12 @@
 GitInfo Class
 """
 
-class GitInfo():
+
+class GitInfo:
     """
     Information about git properties
     """
+
     def __init__(self, remote_url, branch):
         self.remote_name = "origin-new-repo"
         self.remote_url = remote_url

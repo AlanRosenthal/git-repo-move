@@ -9,18 +9,47 @@ from .keepfiles import KeepFiles
 from .gitinfo import GitInfo
 from .shellscript import ShellScript
 
+
 @click.command()
 @click.option("--file", multiple=True, help="Files to keep")
 @click.option("--directory", multiple=True, help="Directories to keep")
-@click.option("--dir-structure", type=click.Choice(['FLAT', 'ORIGINAL'], case_sensitive=False), required=True, help="Select the new directory structure")
+@click.option(
+    "--dir-structure",
+    type=click.Choice(["FLAT", "ORIGINAL"], case_sensitive=False),
+    required=True,
+    help="Select the new directory structure",
+)
 @click.option("--final_directory", help="Move all kept files under this directory")
 @click.option("--git-remote-url", help="URL of the new git repo", required=True)
 @click.option("--git-branch", help="Git branch name", required=True)
-@click.option("--save-shell-script", is_flag=True, default=True, help="Save the shell script to a file (recommended to document in PR)")
-@click.option("--shell-script-name", default="git-repo-move.sh", help="Name of the shell script")
-@click.option("--try-keep", is_flag=True, default=False, help="Test out the Keep stage (run outside of git)")
+@click.option(
+    "--save-shell-script",
+    is_flag=True,
+    default=True,
+    help="Save the shell script to a file (recommended to document in PR)",
+)
+@click.option(
+    "--shell-script-name", default="git-repo-move.sh", help="Name of the shell script"
+)
+@click.option(
+    "--try-keep",
+    is_flag=True,
+    default=False,
+    help="Test out the Keep stage (run outside of git)",
+)
 @click.option("--execute", is_flag=True, default=False, help="Run the shell script")
-def main(file, directory, dir_structure, final_directory, git_remote_url, git_branch, save_shell_script, shell_script_name, try_keep, execute):
+def main(
+    file,
+    directory,
+    dir_structure,
+    final_directory,
+    git_remote_url,
+    git_branch,
+    save_shell_script,
+    shell_script_name,
+    try_keep,
+    execute,
+):
     """
     This utility will help you move files from one git repo to another, while preserving history.
     Under the hood, this utility uses git-filter-branch, but the API is much more user friendly.
@@ -38,11 +67,23 @@ def main(file, directory, dir_structure, final_directory, git_remote_url, git_br
         --try-keep, and --execute to configuration execution
     """
     gitinfo = GitInfo(remote_url=git_remote_url, branch=git_branch)
-    keepfiles = KeepFiles(keep_files=file, keep_directories=directory, is_dir_structure_flat=dir_structure == "FLAT", final_directory=final_directory)
-    shellscript = ShellScript(keepfiles=keepfiles, gitinfo=gitinfo, save_shell_script=save_shell_script, shell_script_name=shell_script_name)
+    keepfiles = KeepFiles(
+        keep_files=file,
+        keep_directories=directory,
+        is_dir_structure_flat=dir_structure == "FLAT",
+        final_directory=final_directory,
+    )
+    shellscript = ShellScript(
+        keepfiles=keepfiles,
+        gitinfo=gitinfo,
+        save_shell_script=save_shell_script,
+        shell_script_name=shell_script_name,
+    )
 
     if try_keep:
-        print(f"Running the keep script on this repo, run `git reset --hard && rm -rf {keepfiles.working_dir}` to undo everything")
+        print(
+            f"Running the keep script on this repo, run `git reset --hard && rm -rf {keepfiles.working_dir}` to undo everything"
+        )
         print(f"Inspect the directory: {keepfiles.working_dir}")
         for cmd in keepfiles.commands:
             retval = os.system(cmd)
