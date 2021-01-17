@@ -111,7 +111,7 @@ It usually takes a few attempts to specify the correct files and directories.
 By specifying the `--try-keep` flag, `git-repo-move` will move the specified files into a folder.
 Inspect that folder to ensure everything is correct.
 
-#### execute
+#### Execute
 
 By specifying the `--execute` flag, the generated script will be executed.
 
