@@ -1,4 +1,4 @@
-"""
+git_repo_move/keepfiles.py"""
 Shell Script Class
 """
 
@@ -32,6 +32,11 @@ class ShellScript():
         self.script.append("# Create a new branch (delete if exists)")
         self.script.append(self.gitinfo.create_new_branch_cmd())
         self.script.append("")
+        if self.keepfiles.keep_files_common_path:
+            self.script.append(f"# There's a common path for the selected files: {self.keepfiles.keep_files_common_path}")
+            self.script.append("# As an optimization we'll run subdirectory-filter on the common path first")
+            self.script.append(f"git filter-branch --force --prune-empty --subdirectory-filter {self.keepfiles.keep_files_common_path}")
+            self.script.append("")
         self.script.append("# The tree-filter flag will run a command on every commit")
         self.script.append("# Let's run a command to move all the files we care about to a safe location")
         keepfiles_list = ", ".join(self.keepfiles.get_files_and_directories())
