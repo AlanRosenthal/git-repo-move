@@ -39,7 +39,10 @@ class KeepFiles():
         """
         Generate commands required for the Keep Stage
         """
-        dest_base = os.path.join(self.working_dir, self.final_directory)
+        if self.final_directory:
+            dest_base = os.path.join(self.working_dir, self.final_directory)
+        else:
+            dest_base = self.working_dir
         dirnames = set({dest_base})
         mv_commands = []
 

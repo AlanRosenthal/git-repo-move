@@ -1,19 +1,20 @@
 import click
 from .keepfiles import KeepFiles
+from .gitinfo import GitInfo
 
 
 @click.command()
 @click.option("--file", multiple=True, help="Files to keep")
 @click.option("--directory", multiple=True, help="Directories to keep")
 @click.option("--dir-structure", type=click.Choice(['FLAT', 'ORIGINAL'], case_sensitive=False), required=True, help="Select the new directory structure")
-@click.option("--final_directory", default=".", help="Move all kept files under this directory")
-@click.option("--git-remote", help="Remote of new repo", required=True)
+@click.option("--final_directory", help="Move all kept files under this directory")
+@click.option("--git-remote-url", help="URL of the new git repo", required=True)
 @click.option("--git-branch", help="Git branch name", required=True)
 @click.option("--save-shell-script", is_flag=True, default=True, help="Save the shell script to a file (recommended to document in PR)")
 @click.option("--shell-script-name", default="gitmove.sh", help="Name of the shell script")
 @click.option("--try-keep", is_flag=True, default=False, help="Test out the Keep stage (run outside of git)")
 @click.option("--execute", is_flag=True, default=False, help="Run the shell script")
-def main(file, directory, dir_structure, final_directory, git_remote, git_branch, save_shell_script, shell_script_name, try_keep, execute):
+def main(file, directory, dir_structure, final_directory, git_remote_url, git_branch, save_shell_script, shell_script_name, try_keep, execute):
     """
     This utility will help you move files from one git repo to another, while preserving history.
     Under the hood, this utility uses git-filter-branch, but the API is much more user friendly.
@@ -38,8 +39,8 @@ def main(file, directory, dir_structure, final_directory, git_remote, git_branch
     print("####################################################################")
     print("")
     print("# Create Branch (delete if exists)")
-    print(f"git branch --delete --force {git_branch}")
-    print(f"git branch -b {git_branch}")
+    git_info = GitInfo(remote_url=git_remote_url, branch=git_branch)
+    print(git_info.create_new_branch_cmd())
     print("")
     keepfiles = KeepFiles(keep_files=file, keep_directories=directory, is_dir_structure_flat=dir_structure == "FLAT", final_directory=final_directory)
     keepfiles_list = ", ".join(keepfiles.get_files_and_directories())
@@ -53,4 +54,9 @@ def main(file, directory, dir_structure, final_directory, git_remote, git_branch
     print("# The subdirectory-filter flag saves everything in the given folder, and ignores everything else")
     print(f"git filter-branch --force --prune-empty --subdirectory-filter {keepfiles.working_dir}")
     print("")
+    print("# Add a new remote and push the branch")
+    print(git_info.add_new_remote_cmd())
+    print(git_info.push_branch_to_remote_cmd())
     print("")
+    print("# Let's remove the remote so we don't forget")
+    print(git_info.remove_new_remote_cmd())
