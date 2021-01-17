@@ -41,7 +41,7 @@ and what directories you want to keep by specifying:
 --directory path/to/subfolder --directory path/to_another subfolder
 ```
 
-#### Select the Final Directory for the files
+#### Select the Final Directory for the Files
 
 Optionally, specify the final directory for the files
 
@@ -63,17 +63,17 @@ For example:
 --file path/to/file.txt --final-directory newpath/to/thefiles --directory-structure FLAT
 ```
 
-`flat.txt` will end up at `newpath/to/thefiles/flat.txt`
+`file.txt` will end up at `newpath/to/thefiles/flat.txt`
 
 ```sh
 --file path/to/file.txt --final-directory newpath/to/thefiles --directory-structure ORIGINAL
 ```
 
-`flat.txt` will end up at `newpath/to/thefiles/path/to/file.txt
+`file.txt` will end up at `newpath/to/thefiles/path/to/file.txt`
 
 #### Specify the Git Remote URL of the Destination Repo
 
-You can run `git remote -v` in the new repo to get a list of remote URLS.
+You can run `git remote -v` to get a list of remote URLs.
 
 ```sh
 --git-remote-url git@github.com:AlanRosenthal/git-repo-move.git
@@ -98,7 +98,7 @@ You can change the default name by specifying
 --shell-script-name best-script-ever.sh
 ```
 
-It's recommended to include the generate shell script on your PR.
+It is recommended to include the generated shell script on your PR.
 
 Optionally, don't save a shell script by specifying the `--dont-save-shell-script` flag.
 
@@ -106,10 +106,10 @@ Optionally, don't save a shell script by specifying the `--dont-save-shell-scrip
 #### Try It Out
 
 This utility uses `git-filter-branch` which is relatively slow, especially for large repos.
-If also often takes a few attempts to specify the correct files and directories.
+It usually takes a few attempts to specify the correct files and directories.
 
-By specifying the `--try-it` flag, `git-repo-move` will move the files outside of git into a folder.
-Inspect the files in that folder to ensure everything is correct.
+By specifying the `--try-keep` flag, `git-repo-move` will move the specified files into a folder.
+Inspect that folder to ensure everything is correct.
 
 #### execute
 
@@ -127,7 +127,8 @@ Running the command:
 git-repo-move --file click/formatting.py --file src/click/formatting.py --file click/parser.py --file src/click/parser.py --final_directory alan/click --directory-structure flat --git-remote-url git@github.com:AlanRosenthal/git-repo-move.git --git-branch move_files_example --execute
 ```
 
-Note: We're including both `click/formatting.py` and `src/click/formatting.py` because `formatting.py` was moved from `click` to `src/click`.
+Note: We're including `click/formatting.py` & `src/click/formatting.py` and `click/parser.py` & `src/click/parser.py`.
+Files were moved from `click` to `src/click`.
 `git-blame` knows how to capture files history across moves, but `git-filter-branch` does not.
 
 As you can see, the [`move_files_example` branch](https://github.com/AlanRosenthal/git-repo-move/tree/move_files_example) has contains two files, `formatting.py` and `parser.py`.
