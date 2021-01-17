@@ -30,6 +30,7 @@ def main(file, directory, dir_structure, final_directory, git_remote, git_branch
         Use --git-remote, --git-branch, --save-shell-script, --save-shell-script-name
         --try-keep, and --execute to configuration execution
     """
+
     print("#! /bin/env bash")
     print("")
     print("####################################################################")

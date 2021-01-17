@@ -9,7 +9,7 @@ class KeepFiles():
     """
     KeepFiles class. These are the files and directories you want to save
     """
-    def __init__(self, keep_files, keep_directories, is_dir_structure_flat, final_directory):
+    def __init__(self, keep_files, keep_directories, is_dir_structure_flat, final_directory=None):
         self.keep_files = keep_files
         self.keep_directories = keep_directories
         self.is_dir_structure_flat = is_dir_structure_flat
@@ -59,4 +59,4 @@ class KeepFiles():
         for directory in dirnames:
             mkdir_commands.append(f"mkdir -p {directory}")
 
-        return mkdir_commands + mv_commands
+        return sorted(mkdir_commands) + mv_commands
