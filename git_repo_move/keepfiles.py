@@ -49,17 +49,6 @@ class KeepFiles:
 
         return os.path.commonpath(directories)
 
-    def get_files_and_directories(self):
-        """
-        Return a list of files and directories
-        """
-        result = []
-        if self.keep_files:
-            result.extend(self.keep_files)
-        if self.keep_directories:
-            result.extend(self.keep_directories)
-        return result
-
     def generate_commands(self):
         """
         Generate commands required for the Keep Stage

@@ -14,7 +14,7 @@ from .shellscript import ShellScript
 @click.option("--file", multiple=True, help="Files to keep")
 @click.option("--directory", multiple=True, help="Directories to keep")
 @click.option(
-    "--dir-structure",
+    "--directory-structure",
     type=click.Choice(["FLAT", "ORIGINAL"], case_sensitive=False),
     required=True,
     help="Select the new directory structure",
@@ -23,9 +23,9 @@ from .shellscript import ShellScript
 @click.option("--git-remote-url", help="URL of the new git repo", required=True)
 @click.option("--git-branch", help="Git branch name", required=True)
 @click.option(
-    "--save-shell-script",
+    "--dont-save-shell-script",
     is_flag=True,
-    default=True,
+    default=False,
     help="Save the shell script to a file (recommended to document in PR)",
 )
 @click.option(
@@ -41,11 +41,11 @@ from .shellscript import ShellScript
 def main(
     file,
     directory,
-    dir_structure,
+    directory_structure,
     final_directory,
     git_remote_url,
     git_branch,
-    save_shell_script,
+    dont_save_shell_script,
     shell_script_name,
     try_keep,
     execute,
@@ -58,25 +58,25 @@ def main(
     Select what files/directories you want to keep
         Use --file and --dir to select what files you want moved
     Select the new directory for the files
+        Use --final_directory to specify the new subdirectories for all kept files
         Use --dir-structure to specify if you want to keep the original directory str
             FLAT: flatten all the file into one directory
             ORIGINAL: preserve the original directory structure
-        Use --final_directory to specify the new subdirectories for all kept files
     Select configuration options
-        Use --git-remote, --git-branch, --save-shell-script, --save-shell-script-name
+        Use --git-remote, --git-branch, --dont-save-shell-script, --save-shell-script-name
         --try-keep, and --execute to configuration execution
     """
     gitinfo = GitInfo(remote_url=git_remote_url, branch=git_branch)
     keepfiles = KeepFiles(
         keep_files=file,
         keep_directories=directory,
-        is_dir_structure_flat=dir_structure == "FLAT",
+        is_dir_structure_flat=directory_structure == "FLAT",
         final_directory=final_directory,
     )
     shellscript = ShellScript(
         keepfiles=keepfiles,
         gitinfo=gitinfo,
-        save_shell_script=save_shell_script,
+        save_shell_script=not dont_save_shell_script,
         shell_script_name=shell_script_name,
     )
 
