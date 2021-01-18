@@ -1,5 +1,9 @@
 # git-repo-move
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AlanRosenthal/git-repo-move/main?style=build-ci)](https://github.com/noahp/AlanRosenthal/git-repo-move)
+
 Move files from one git repo to another, preserving history!
 Under the hood, this utility uses [`git filter-branch`](https://git-scm.com/docs/git-filter-branch), but the API is much more user friendly.
 
