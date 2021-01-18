@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "git-repo-move"
-version = "1.0.0"
+version = "1.0.1"
 description = "Move files from one git repo to another, preserving history"
 authors = ["Alan Rosenthal <1288897+AlanRosenthal@users.noreply.github.com>"]
 license = "MIT License"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
