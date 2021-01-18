@@ -6,7 +6,7 @@ authors = ["Alan Rosenthal <1288897+AlanRosenthal@users.noreply.github.com>"]
 license = "MIT License"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.7"
 click = "^7.1.2"
 
 [tool.poetry.dev-dependencies]
