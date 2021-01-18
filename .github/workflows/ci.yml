@@ -24,7 +24,7 @@ jobs:
           poetry install
     - name: pytest
       run: |
-          poetry run pytest -s -v test
+          poetry run pytest --cov git_repo_move -s -v test
     - name: black
       run: |
           poetry run black --check .
