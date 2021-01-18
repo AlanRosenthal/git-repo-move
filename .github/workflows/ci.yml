@@ -1,24 +1,27 @@
-name: CI
+name: Python package
 
 on: [push]
 
 jobs:
+  build:
 
-  test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
 
     steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
-
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
-      - name: Install Poetry
-        run: pip3 install poetry==1.1.4
-
-      - name: Install Dependencies
-        run: poetry install
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip install poetry==1.1.4
+    - name: pytest
+      run: |
+          poetry run pytest -s -v test
+    - name: black
+      run: |
+          poetry run black --check .
